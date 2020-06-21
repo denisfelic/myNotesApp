@@ -1,34 +1,18 @@
-import React from 'react';
-import {Text, View, ListView, Alert, FlatList} from 'react-native';
-import SQLite from 'react-native-sqlite-storage';
+import React, {useState} from 'react';
+import {Text, View, Alert} from 'react-native';
+import readUser from './src/database/user';
 
 const App = () => {
-  const db = SQLite.openDatabase(
-    {
-      name: 'mydb.db',
-      createFromLocation: '~/mydb.db',
-      location: 'default',
-    },
-    successToOpenDb,
-    failToOpenDb,
-  );
-
-  function successToOpenDb() {
-    db.transaction((tx) => {
-      tx.executeSql('SELECT * FROM note', [], (tx, results) => {
-        let dataLength = results.rows.length;
-        Alert.alert(String(dataLength));
-      });
-    });
-  }
-
-  function failToOpenDb(err: any) {
-    console.log(err.code, err.message);
-  }
+  // Test
+  const [title, setTitle] = useState('');
+  readUser.users().then((data) => {
+    console.log(data[0].title);
+    setTitle(data[0].title);
+  });
 
   return (
     <View>
-      <Text>Hello, World!</Text>
+      <Text>{title}</Text>
     </View>
   );
 };
