@@ -1,6 +1,13 @@
 import React from 'react';
-import {Text} from 'react-native';
+import {View} from 'react-native';
+import {NotesList} from '../../components/NotesList';
+import notes from '../../database/notes';
 
-export default function Home() {
-  return <Text>Oi</Text>;
-}
+const Home = () => {
+  return (
+    <View>
+      <NotesList />
+    </View>
+  );
+};
+export default Home;
