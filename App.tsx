@@ -1,18 +1,12 @@
 import React, {useState} from 'react';
-import {Text, View, Alert} from 'react-native';
-import readUser from './src/database/user';
+import {View, Text} from 'react-native';
+import {Home} from './src/pages/Home';
 
 const App = () => {
-  // Test
-  const [title, setTitle] = useState('');
-  readUser.users().then((data) => {
-    console.log(data[0].title);
-    setTitle(data[0].title);
-  });
-
   return (
     <View>
-      <Text>{title}</Text>
+      <Text>Home</Text>
+      <Home />
     </View>
   );
 };
