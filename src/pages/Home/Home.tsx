@@ -1,22 +1,15 @@
 import React from 'react';
-import {View, Button} from 'react-native';
-import {NotesList} from '../../components/NotesList';
-import notes from '../../database/notes';
+import { View, Button } from 'react-native';
+import { NotesList } from '../../components/NotesList';
+import { NoteController } from '../../controllers/NoteController';
+const noteController = new NoteController();
 
 const Home = () => {
-  function onPressLearnMore() {
-    notes.deleteNote(1);
-  }
+
 
   return (
     <View>
       <NotesList />
-      <Button
-        onPress={onPressLearnMore}
-        title="Learn More"
-        color="#841584"
-        accessibilityLabel="Learn more about this purple button"
-      />
     </View>
   );
 };

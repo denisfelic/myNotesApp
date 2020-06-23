@@ -1,13 +1,5 @@
-// TODO : Criar um controller para controlar as regras de negócio de cada método do CRUD.
-interface NoteInterface {
-  note_id: number,
-  title: string,
-  content: string,
-  last_UpDate: string,
-  user_id: number
-}
-
 import { Alert } from 'react-native';
+import { NoteInterface } from '../models/NoteInterface';
 
 let SQLite = require('react-native-sqlite-storage');
 let sqlite = SQLite.openDatabase({
@@ -16,27 +8,21 @@ let sqlite = SQLite.openDatabase({
   location: 'default',
 });
 
-
-
-// Create
-const insertNewNote = (note: NoteInterface) => {
-  return new Promise((resolve, reject) => {
-
-
-    if (!note || note === null) {
-      Alert.alert('Error', 'Nota vazia.');
-      return;
-    }
-
-    sqlite.transaction((tx) => {
+/**
+  * createNewNote
+  */
+const createNewNote = (note: NoteInterface) => {
+  return new Promise((resolve) => {
+    sqlite.transaction((tx: any) => {
       tx.executeSql(
         `INSERT INTO note (title, content, date, user_id ) VALUES (?, ?, ?, ?);`,
-        [note.title, note.content, note.date, note.user_id],
-        (tx, results) => {
+        [note.title, note.content, note.last_UpDate, note.user_id],
+        (tx: any, results: any) => {
+
           // Todo: Inserir algum log
           Alert.alert('Inserido');
         },
-        (error) => {
+        (error: any) => {
           // Todo: Trabalhar no log de erro
           console.log('Error', error);
           resolve(error);
@@ -46,12 +32,14 @@ const insertNewNote = (note: NoteInterface) => {
   });
 };
 
-// Read 
+/**
+  * readNotes
+  */
 const readNotes = () => {
-  return new Promise((resolve, reject) => {
-    sqlite.transaction((tx) => {
+  return new Promise((resolve) => {
+    sqlite.transaction((tx: any) => {
       tx.executeSql(
-        'SELECT * FROM note',
+        `SELECT * FROM note`,
         [],
         (tx: any, results: any) => {
           let dataLength: number = results.rows.length;
@@ -71,25 +59,47 @@ const readNotes = () => {
   });
 };
 
-// Update
+/**
+  * readOneNote
+  */
+const readOneNote = (note_id: number) => {
+  return new Promise((resolve) => {
+    sqlite.transaction((tx: any) => {
+      tx.executeSql(
+        `SELECT * FROM note WHERE note_id = (?)`,
+        [note_id],
+        (tx: any, results: any) => {
+          let dataLength: number = results.rows.length;
+          let helperArrayDB = [];
+          if (dataLength > 0) {
+            for (let i = 0; i < dataLength; i++) {
+              helperArrayDB.push(results.rows.item(i));
+            }
+          }
+          resolve(helperArrayDB);
+        },
+        (error: any) => {
+          resolve(error);
+        },
+      );
+    });
+  });
+};
+
+/**
+  * updateNote
+  */
 const updateNote = (note: NoteInterface) => {
-  return new Promise((resolve, reject) => {
-
-
-    if (!note || note === null) {
-      Alert.alert('Error', 'Nota vazia.');
-      return;
-    }
-
-    sqlite.transaction((tx) => {
+  return new Promise((resolve) => {
+    sqlite.transaction((tx: any) => {
       tx.executeSql(
         `UPDATE note SET title = (?), content = (?), date = (?) WHERE note_id = (?)`,
         [note.title, note.content, note.last_UpDate, note.note_id],
-        (tx, results) => {
+        (tx: any, results: any) => {
           // Todo: Inserir algum log
           Alert.alert('Inserido');
         },
-        (error) => {
+        (error: any) => {
           // Todo: Trabalhar no log de erro
           console.log('Error', error);
           resolve(error);
@@ -100,10 +110,12 @@ const updateNote = (note: NoteInterface) => {
 };
 
 
-// Delete 
-const deleteNote = (note_id : number) => {
-  return new Promise((resolve, reject) => {
-    sqlite.transaction((tx) => {
+/**
+  * deleteNote
+  */
+const deleteNote = (note_id: number) => {
+  return new Promise((resolve) => {
+    sqlite.transaction((tx: any) => {
       tx.executeSql(
         'DELETE FROM note WHERE note_id = (?)',
         [note_id],
@@ -120,9 +132,10 @@ const deleteNote = (note_id : number) => {
 };
 
 const notesDB = {
-  insertNewNote: insertNewNote,
+  createNewNote: createNewNote,
   getNotesList: readNotes,
+  getOneNote : readOneNote,
   updateNote: updateNote,
-  deleteNote : deleteNote,
+  deleteNote: deleteNote,
 };
 export default notesDB;
