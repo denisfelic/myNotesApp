@@ -1,14 +1,40 @@
-import React, {useState} from 'react';
-import {View, Text} from 'react-native';
-import {Home} from './src/pages/Home';
+import 'react-native-gesture-handler';
 
-const App = () => {
+import * as React from 'react';
+import { Button, View } from 'react-native';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { NavigationContainer } from '@react-navigation/native';
+import { Home } from './src/pages/Home';
+
+
+const Drawer = createDrawerNavigator();
+
+export default function App() {
   return (
-    <View>
-      <Text>Home</Text>
-      <Home />
+    <NavigationContainer>
+      <Drawer.Navigator initialRouteName="Home">
+        <Drawer.Screen name="Home" component={Home} />
+        <Drawer.Screen name="Notifications" component={NotificationsScreen} />
+      </Drawer.Navigator>
+    </NavigationContainer>
+  );
+}
+
+function HomeScreen({ navigation }) {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Button
+        onPress={() => navigation.navigate('Notifications')}
+        title="Go to notifications"
+      />
     </View>
   );
-};
+}
 
-export default App;
+function NotificationsScreen({ navigation }) {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Button onPress={() => navigation.openDrawer()} title="Hamburger" />
+    </View>
+  );
+}
