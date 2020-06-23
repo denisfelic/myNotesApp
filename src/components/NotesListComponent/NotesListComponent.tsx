@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { FlatList } from 'react-native';
-import { Note } from '../Note';
+import { NoteComponent } from '../NoteComponent';
 import { NoteController } from '../../controllers/NoteController';
 import { NoteInterface } from '../../models/NoteInterface';
 
 const noteController = new NoteController();
 let notesList: any = noteController.readAllNotes();
 
-const NotesList = () => {
+const NotesListComponent = () => {
   const [notes, setNotes] = useState<NoteInterface[]>([]);
 
   useEffect(() => {
@@ -25,11 +25,11 @@ const NotesList = () => {
           note : item,
           noteIndex : index,
         }
-        return  <Note props={params} />
+        return  <NoteComponent props={params} />
       }}
       keyExtractor={(item, index) => index.toString()}
     />
   );
 };
 
-export default NotesList;
+export default NotesListComponent;

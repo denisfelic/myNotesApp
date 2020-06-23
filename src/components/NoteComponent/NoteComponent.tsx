@@ -5,7 +5,7 @@ import { NoteInterface } from '../../models/NoteInterface';
 import styles from './styles';
 import dateFormatted from '../../helpers/dateFormatted';
 
-const Note = ({ props }: any) => {
+const NoteComponent = ({ props }: any) => {
   const myNote: NoteInterface = props.note;
   let noteIndex = props.noteIndex;
   let formattedDate = dateFormatted.getCurrentDateFormatted(myNote);
@@ -19,7 +19,8 @@ const Note = ({ props }: any) => {
           <Text numberOfLines={3} style={styles.note_content} >{myNote.content}</Text>
         </View>
       </TouchableOpacity>
+      
     </View>
   );
 };
-export default Note;
+export default NoteComponent;
