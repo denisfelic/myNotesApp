@@ -3,11 +3,12 @@ import { View, StyleSheet, Text, Alert } from 'react-native';
 import { NotesListComponent } from '../../components/NotesListComponent';
 import Icon from 'react-native-vector-icons/Feather';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import {styles} from './styles';
+import { styles } from './styles';
+
 
 
 const Home = ({ navigation }) => {
-  
+
   return (
     <View>
 
@@ -25,7 +26,7 @@ const Home = ({ navigation }) => {
       <NotesListComponent />
 
       <View style={styles.addNoteButtonContainer}>
-        <TouchableOpacity style={styles.addNoteButton} onPress={() => { Alert.alert('oi') }}>
+        <TouchableOpacity style={styles.addNoteButton} onPress={() => { navigation.navigate('ViewNote') }}>
           <Icon name={'plus'} size={50} color="#777" />
         </TouchableOpacity>
       </View>
