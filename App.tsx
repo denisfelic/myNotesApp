@@ -15,15 +15,17 @@ export default function App() {
     <NavigationContainer>
       <Drawer.Navigator initialRouteName="Home">
         <Drawer.Screen name="Home" component={Home} />
-        <Drawer.Screen name="ViewNote" component={ViewNote} />
         <Drawer.Screen name="Trash" component={Trash} />
+        <Drawer.Screen name="ViewNote" component={ViewNote}  // Preciso que este item fique oculto no Drawer Menu
+        options={{   
+                drawerLabel: () => null,
+            }}
+        />
       </Drawer.Navigator>
     </NavigationContainer>
   );
 }
-
-
-
+ 
 function Trash({ navigation }) {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
